@@ -19,4 +19,4 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 
 
-Route::get('XML', [ControllerBuscaCep::class, 'index']);
+Route::get('cep', [ControllerBuscaCep::class, 'buscaCep']);
