@@ -22,7 +22,8 @@ Route::get('cep', [ControllerBuscaCep::class, 'buscaCep']);
 Criar o método de busca de CEP no controlador:
 No controlador, crie o método buscaCep que receberá o CEP como parâmetro e fará a requisição HTTP para a API de busca de CEP. Você pode usar a biblioteca GuzzleHttp para fazer a requisição.
 
- public function buscaCep(Request $request)
+ 
+    (public function buscaCep(Request $request)
     {
         $client = new Client();
         $response = $client->request('GET', "https://viacep.com.br/ws/$request->cep/json/");
@@ -31,6 +32,7 @@ No controlador, crie o método buscaCep que receberá o CEP como parâmetro e fa
 
         return response()->json($data);
     }
+    )
  <hr>
  
 Contribuindo
