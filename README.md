@@ -1,49 +1,46 @@
- 
- <hr>
- Projeto-01:
-<b>Busca de CEP em Laravel</b>
-Este é um projeto simples que demonstra como fazer uma busca de CEP em Laravel usando a API de busca de CEP do ViaCEP.
+<!-- Título do Projeto -->
+<h1>Projeto-01: Busca de CEP em Laravel</h1>
+<!-- Descrição -->
+<p>Este é um projeto simples que demonstra como fazer uma busca de CEP em Laravel usando a API de busca de CEP do ViaCEP.</p>
+<!-- Pré-requisitos -->
+<h2>Pré-requisitos</h2>
+<ul>
+  <li>PHP 7.4 ou superior</li>
+  <li>Composer</li>
+  <li>GuzzleHttp</li>
+</ul>
+<!-- Instalação -->
+<h2>Instalação</h2>
+<ol>
+  <li>Clone o repositório para sua máquina local.</li>
+  <li>Instale as dependências com o comando <code>composer install</code>.</li>
+  <li>Copie o arquivo <code>.env.example</code> para <code>.env</code> e configure as variáveis de ambiente.</li>
+</ol>
+<!-- Como usar -->
+<h2>Como usar</h2>
+<p>Crie uma rota para a busca de CEP em seu arquivo de rotas:</p>
+<pre><code>Route::get('cep', [ControllerBuscaCep::class, 'buscaCep']);</code></pre>
+<p>Crie o método <code>buscaCep</code> em seu controlador para fazer a busca de CEP:</p>
+<pre><code>
+public function buscaCep(Request $request)
+{
+    $client = new Client();
+    $response = $client->request('GET', "https://viacep.com.br/ws/$request->cep/json/");
 
-Pré-requisitos
-PHP 7.4 ou superior
-Composer
-GuzzleHttp
+    $data = json_decode($response->getBody(), true);
+
+    return response()->json($data);
+}
+</code></pre>
+<!-- Contribuição -->
+<h2>Contribuição</h2>
+<p>Se você quiser contribuir com este projeto, sinta-se à vontade para enviar pull requests ou reportar problemas na página de issues do GitHub.</p>
+<!-- Contato -->
+<h2>Contato</h2>
+<p>Se você tiver alguma dúvida ou sugestão, pode entrar em contato comigo por e-mail: salvadorbba@gmail.com.</p>
+<!-- Licença -->
+<h2>Licença</h2>
+<p>Este projeto está licenciado sob a licença MIT. Veja o arquivo LICENSE para mais detalhes.</p>
 
 
-Para criar um código de busca de CEP em Laravel, você pode seguir os seguintes passos:
 
-Instalar a biblioteca GuzzleHttp:
-Para fazer uma requisição HTTP para a API de busca de CEP, você precisará instalar a biblioteca GuzzleHttp. Para instalar, execute o seguinte comando no terminal do seu  composer require guzzlehttp/guzzle
-
-Criar a rota para a busca de CEP:
-Em seu arquivo de rotas, defina uma rota para a busca de CEP. Por exemplo:
-Route::get('cep', [ControllerBuscaCep::class, 'buscaCep']);
-
-Criar o método de busca de CEP no controlador:
-No controlador, crie o método buscaCep que receberá o CEP como parâmetro e fará a requisição HTTP para a API de busca de CEP. Você pode usar a biblioteca GuzzleHttp para fazer a requisição.
-
- 
-    (
-    //inicio do codigo
-    public function buscaCep(Request $request)
-    {
-        $client = new Client();
-        $response = $client->request('GET', "https://viacep.com.br/ws/$request->cep/json/");
-
-        $data = json_decode($response->getBody(), true);
-
-        return response()->json($data);
-    }
-     //final do codigo
-  
-  ) 
- <hr>
- 
-Contribuindo
-Se você quiser contribuir com este projeto, sinta-se à vontade para enviar pull requests ou reportar problemas na página de issues do GitHub.
-
-Contato
-Se você tiver alguma dúvida ou sugestão, pode entrar em contato comigo por e-mail: salvadorbba@gmail.com.
-
-Licença
-Este projeto está licenciado sob a licença MIT. Veja o arquivo LICENSE para mais detalhes.
