@@ -49,13 +49,7 @@ public function buscaCep(Request $request)
       <li>Crie uma pasta chamada <code>xml</code> na raiz do projeto, onde os arquivos XML gerados serão salvos.</li>
       <li>Copie o arquivo <code>config.example.php</code> para <code>config.php</code> e edite as informações de configuração do Sped-NFe (certificado digital, senha, etc.)</li>
     </ol>
-    
-    <h2>Uso</h2>
-    <p>Para gerar um arquivo XML de NF-e, basta criar um novo arquivo PHP na pasta <code>xml</code> e utilizar a classe <code>SpedNFe</code>:</p>
-    
-    <pre><code>&lt;?php
-    require_once '../vendor/autoload.php';
-
+<code>
     use NFePHP\NFe\Make;
     use NFePHP\Common\Certificate;
     use NFePHP\Common\Soap\SoapCurl;
@@ -74,10 +68,10 @@ public function buscaCep(Request $request)
     $xml = $make->getXML();
 
     file_put_contents('nfe.xml', $xml);</code></pre>
-
+</code>
 <p>Para gerar um XML da NFe, basta chamar a classe <code>Make</code> da biblioteca Sped-NFe e utilizar seus métodos para adicionar as tags necessárias. Por exemplo:</p>
 <pre><code>use NFePHP\NFe\Make;
-
+<code>
 $xml = new Make();
 
 $xml->taginfNFe([
@@ -110,6 +104,8 @@ $xml->tagide([
 // E assim por diante...
 
 $xmlString = $xml->getXML();
+
+
 </code></pre>
 <p>Para mais informações sobre como utilizar a biblioteca Sped-NFe, consulte a documentação oficial em: <a href="https://github.com/nfephp-org/sped-nfe">https://github.com/nfephp-org/sped-nfe</a></p>
 
