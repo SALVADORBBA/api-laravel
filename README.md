@@ -42,6 +42,39 @@ public function buscaCep(Request $request)
   <li>Biblioteca Sped-NFe</li>
 </ul>
 <h3>Como usar</h3>
+<h2>Instalação</h2>
+    <ol>
+      <li>Clone o repositório em sua máquina local: <code>git clone https://github.com/seu-usuario/projeto-sped-nfe.git</code></li>
+      <li>Na raiz do projeto, execute o comando <code>composer install</code> para instalar as dependências.</li>
+      <li>Crie uma pasta chamada <code>xml</code> na raiz do projeto, onde os arquivos XML gerados serão salvos.</li>
+      <li>Copie o arquivo <code>config.example.php</code> para <code>config.php</code> e edite as informações de configuração do Sped-NFe (certificado digital, senha, etc.)</li>
+    </ol>
+    
+    <h2>Uso</h2>
+    <p>Para gerar um arquivo XML de NF-e, basta criar um novo arquivo PHP na pasta <code>xml</code> e utilizar a classe <code>SpedNFe</code>:</p>
+    
+    <pre><code>&lt;?php
+    require_once '../vendor/autoload.php';
+
+    use NFePHP\NFe\Make;
+    use NFePHP\Common\Certificate;
+    use NFePHP\Common\Soap\SoapCurl;
+
+    $config = include('../config.php');
+
+    $make = new Make();
+    $make->taginfNFe(['versao' => '4.00', 'Id' => 'NFe12345678901234567890123456789012345678901']);
+
+    // Adicione aqui as tags da sua NF-e
+
+    $certificate = Certificate::readPfx($config['certificado']['caminho'], $config['certificado']['senha']);
+    $soap = new SoapCurl($config['nfe']['homologacao']);
+    $soap->setCertificate($certificate);
+    $make->monta();
+    $xml = $make->getXML();
+
+    file_put_contents('nfe.xml', $xml);</code></pre>
+
 <p>Para gerar um XML da NFe, basta chamar a classe <code>Make</code> da biblioteca Sped-NFe e utilizar seus métodos para adicionar as tags necessárias. Por exemplo:</p>
 <pre><code>use NFePHP\NFe\Make;
 
