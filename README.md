@@ -1,12 +1,14 @@
-App 01
-######################################################################################################################
-Busca de CEP em Laravel
+ 
+ <hr>
+ Projeto-01:
+<b>Busca de CEP em Laravel</b>
 Este é um projeto simples que demonstra como fazer uma busca de CEP em Laravel usando a API de busca de CEP do ViaCEP.
 
 Pré-requisitos
 PHP 7.4 ou superior
 Composer
 GuzzleHttp
+
 
 Para criar um código de busca de CEP em Laravel, você pode seguir os seguintes passos:
 
@@ -29,8 +31,8 @@ No controlador, crie o método buscaCep que receberá o CEP como parâmetro e fa
 
         return response()->json($data);
     }
-
-######################################################################################################################
+ <hr>
+ 
 Contribuindo
 Se você quiser contribuir com este projeto, sinta-se à vontade para enviar pull requests ou reportar problemas na página de issues do GitHub.
 
