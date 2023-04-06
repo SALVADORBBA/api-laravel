@@ -3,6 +3,8 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ControllerBuscaCep;
+use App\Http\Controllers\ControllerConverteXML;
+
 /* 
 |--------------------------------------------------------------------------
 | API Routes
@@ -20,3 +22,4 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 
 
 Route::get('cep', [ControllerBuscaCep::class, 'buscaCep']);
+Route::post('xmlforobject', [ControllerConverteXML::class, 'index']);
