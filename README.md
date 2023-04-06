@@ -1,64 +1,124 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400"></a></p>
+<!-- Título do Projeto -->
+<h1>Projeto-01: Busca de CEP em Laravel</h1>
+<!-- Descrição -->
+<p>Este é um projeto simples que demonstra como fazer uma busca de CEP em Laravel usando a API de busca de CEP do ViaCEP.</p>
+<!-- Pré-requisitos -->
+<h2>Pré-requisitos</h2>
+<ul>
+  <li>PHP 7.4 ou superior</li>
+  <li>Composer</li>
+  <li>GuzzleHttp</li>
+</ul>
+<!-- Instalação -->
+<h2>Instalação</h2>
+<ol>
+  <li>Clone o repositório para sua máquina local.</li>
+  <li>Instale as dependências com o comando <code>composer install</code>.</li>
+  <li>Copie o arquivo <code>.env.example</code> para <code>.env</code> e configure as variáveis de ambiente.</li>
+</ol>
+<!-- Como usar -->
+<h2>Como usar</h2>
+<p>Crie uma rota para a busca de CEP em seu arquivo de rotas:</p>
+<pre><code>Route::get('cep', [ControllerBuscaCep::class, 'buscaCep']);</code></pre>
+<p>Crie o método <code>buscaCep</code> em seu controlador para fazer a busca de CEP:</p>
+<pre><code>
+public function buscaCep(Request $request)
+{
+    $client = new Client();
+    $response = $client->request('GET', "https://viacep.com.br/ws/$request->cep/json/");
 
-<p align="center">
-<a href="https://travis-ci.org/laravel/framework"><img src="https://travis-ci.org/laravel/framework.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+    $data = json_decode($response->getBody(), true);
 
-## About Laravel
+    return response()->json($data);
+}
+</code></pre>
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+<h1>Projeto-02: Geração de XML com Sped-NFe em PHP</h1>
+<p>Este é um projeto simples que demonstra como gerar um XML da Nota Fiscal Eletrônica (NFe) usando a biblioteca Sped-NFe em PHP.</p>
+<h3>Pré-requisitos</h3>
+<ul>
+  <li>PHP 7.2 ou superior</li>
+  <li>Biblioteca Sped-NFe</li>
+</ul>
+<h3>Como usar</h3>
+<h2>Instalação</h2>
+    <ol>
+      <li>Clone o repositório em sua máquina local: <code>git clone https://github.com/seu-usuario/projeto-sped-nfe.git</code></li>
+      <li>Na raiz do projeto, execute o comando <code>composer install</code> para instalar as dependências.</li>
+      <li>Crie uma pasta chamada <code>xml</code> na raiz do projeto, onde os arquivos XML gerados serão salvos.</li>
+      <li>Copie o arquivo <code>config.example.php</code> para <code>config.php</code> e edite as informações de configuração do Sped-NFe (certificado digital, senha, etc.)</li>
+    </ol>
+<code>
+    use NFePHP\NFe\Make;
+    use NFePHP\Common\Certificate;
+    use NFePHP\Common\Soap\SoapCurl;
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+    $config = include('../config.php');
 
-## Learning Laravel
+    $make = new Make();
+    $make->taginfNFe(['versao' => '4.00', 'Id' => 'NFe12345678901234567890123456789012345678901']);
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+    // Adicione aqui as tags da sua NF-e
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains over 1500 video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+    $certificate = Certificate::readPfx($config['certificado']['caminho'], $config['certificado']['senha']);
+    $soap = new SoapCurl($config['nfe']['homologacao']);
+    $soap->setCertificate($certificate);
+    $make->monta();
+    $xml = $make->getXML();
 
-## Laravel Sponsors
+    file_put_contents('nfe.xml', $xml);</code></pre>
+</code>
+<p>Para gerar um XML da NFe, basta chamar a classe <code>Make</code> da biblioteca Sped-NFe e utilizar seus métodos para adicionar as tags necessárias. Por exemplo:</p>
+<pre><code>use NFePHP\NFe\Make;
+<code>
+$xml = new Make();
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the Laravel [Patreon page](https://patreon.com/taylorotwell).
+$xml->taginfNFe([
+    'versao' => '4.00',
+    'Id' => 'NFe12345678901234567890123456789012345678901234'
+]);
 
-### Premium Partners
+$xml->tagide([
+    'cUF' => '41',
+    'cNF' => '12345678',
+    'natOp' => 'Venda de produzido do estabelecimento',
+    'mod' => '55',
+    'serie' => '1',
+    'dhEmi' => '2021-04-01T10:00:00-03:00',
+    'dhSaiEnt' => '2021-04-01T10:00:00-03:00',
+    'tpNF' => '1',
+    'idDest' => '1',
+    'cMunFG' => '4115200',
+    'tpImp' => '1',
+    'tpEmis' => '1',
+    'cDV' => '9',
+    'tpAmb' => '2',
+    'finNFe' => '1',
+    'indFinal' => '1',
+    'indPres' => '1',
+    'procEmi' => '0',
+    'verProc' => '1.0'
+]);
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Cubet Techno Labs](https://cubettech.com)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[Many](https://www.many.co.uk)**
-- **[Webdock, Fast VPS Hosting](https://www.webdock.io/en)**
-- **[DevSquad](https://devsquad.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[OP.GG](https://op.gg)**
-- **[WebReinvent](https://webreinvent.com/?utm_source=laravel&utm_medium=github&utm_campaign=patreon-sponsors)**
-- **[Lendio](https://lendio.com)**
+// E assim por diante...
 
-## Contributing
+$xmlString = $xml->getXML();
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
 
-## Code of Conduct
+</code></pre>
+<p>Para mais informações sobre como utilizar a biblioteca Sped-NFe, consulte a documentação oficial em: <a href="https://github.com/nfephp-org/sped-nfe">https://github.com/nfephp-org/sped-nfe</a></p>
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
 
-## Security Vulnerabilities
+<!-- Contribuição -->
+<h2>Contribuição</h2>
+<p>Se você quiser contribuir com este projeto, sinta-se à vontade para enviar pull requests ou reportar problemas na página de issues do GitHub.</p>
+<!-- Contato -->
+<h2>Contato</h2>
+<p>Se você tiver alguma dúvida ou sugestão, pode entrar em contato comigo por e-mail: salvadorbba@gmail.com.</p>
+<!-- Licença -->
+<h2>Licença</h2>
+<p>Este projeto está licenciado sob a licença MIT. Veja o arquivo LICENSE para mais detalhes.</p>
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
 
-## License
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
